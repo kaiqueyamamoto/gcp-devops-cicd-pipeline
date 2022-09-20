@@ -2,8 +2,8 @@ steps:
   - name: gcr.io/cloud-builders/docker
     args:
       - build
-      - '-t'
-      - '$_IMAGE_NAME:$SHORT_SHA'
+      # - '-t'
+      # - '$_IMAGE_NAME:$SHORT_SHA'
       - '-t'
       - '$_IMAGE_NAME:latest'
       - '-t'
