@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: gcp-devops-cicd-pipeline
+  name: gcp-devops-cicd-pipeline
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: gcp-devops-cicd-pipeline
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: gcp-devops-cicd-pipeline
+    spec:
+      containers:
+        - image: gcr.io/useful-sunup-363022/gcp-devops-cicd-pipeline/dev:latest
+          imagePullPolicy: Always
+          name: gcp-devops-cicd-pipeline
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          # env:
+          #   - name: APP_URL
+          #     value: "mongodb+srv://wivo:WivoRocks220M$@wivo-prod.nnsut.gcp.mongodb.net/mitnick-data"
+          #   - name: DATABASE_MONGO
+          #     value: "mitnick-data"
+          #   - name: PEOPLE_SNAPSHOT
+          #     value: "people-snapshot-view"
+          #   - name: SWAGGER_BASE_PATH
+          #     value: "api/v1/prospector/people/filter"
+          #   - name: HOST
+          #     value: "https://dev.wivo.io/"
+          #   - name: KEYCLOAK_BASE
+          #     value: "https://keycloak-dev.wivo.io/auth"
+          #   - name: KEYCLOAK_ISSUER
+          #     value: "https://keycloak-dev.wivo.io/auth/realms/wivo_app"
+          #   - name: KEYCLOAK_JWT_SCRET
+          #     value: "0d586eb6-241d-4282-88a7-a9e832e419c8"
+          #   - name: KEYCLOAK_JWT_CLIENT
+          #     value: "wivo_backend"            
+          #   - name: KEYCLOAK_CLIENT
+          #     value: "wivo_frontend"
+          #   - name: KEYCLOAK_REALM_NAME
+          #     value: "wivo_app"
+          #   - name: KEYCLOAK_USER_MASTER
+          #     value: "cc55a639-428b-4478-a91e-b85267d2adf2"
+          #   - name: KEYCLOAK_PASS_MASTER
+          #     value: "e84ca91-b0ed-4a0f-b6ba-5458775f396f2"
+          #   - name: DATABASE_URL
+          #     value: "postgresql://postgres:WivoRocks300M$@35.223.34.128:5432/mitnick-front-dev"
+          #   - name: API_SERVICE_EXPORT
+          #     value: "http://10.24.9.3:5000/export/people"
+              
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: gcp-devops-cicd-pipeline
+  name: gcp-devops-cicd-pipeline-svc
+spec:
+  ports:
+    - port: 3000
+      protocol: TCP
+      targetPort: 3000
+  selector:
+    run: gcp-devops-cicd-pipeline
+  sessionAffinity: None
+  type: ClusterIP
