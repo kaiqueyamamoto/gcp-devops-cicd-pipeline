@@ -36,20 +36,20 @@ steps:
       - '--output=output'
 
     id: Prepare deploy
-  # - name: gcr.io/cloud-builders/gsutil
-  #   args:
-  #     - '-c'
-  #     - |-
-  #       then
-  #         gsutil cp -r output/suggested gs://$_OUTPUT_BUCKET_PATH/config/$_K8S_APP_NAME/$BUILD_ID/suggested
-  #         gsutil cp -r output/expanded gs://$_OUTPUT_BUCKET_PATH/config/$_K8S_APP_NAME/$BUILD_ID/expanded
-  #       fi
-  #   id: Save configs
-    # entrypoint: sh
+  - name: gcr.io/cloud-builders/gsutil
+    args:
+      - '-c'
+      - |-
+        then
+          gsutil cp -r output/suggested gs://$_OUTPUT_BUCKET_PATH/config/$_K8S_APP_NAME/$BUILD_ID/suggested
+          gsutil cp -r output/expanded gs://$_OUTPUT_BUCKET_PATH/config/$_K8S_APP_NAME/$BUILD_ID/expanded
+        fi
+    id: Save configs
+    entrypoint: sh
   - name: gcr.io/cloud-builders/gke-deploy
     args:
       - apply
-      # - '--filename=output/expanded'
+      - '--filename=output/expanded'
       - '--cluster=$_GKE_CLUSTER'
       - '--location=$_GKE_LOCATION'
       - '--namespace=$_K8S_NAMESPACE'
