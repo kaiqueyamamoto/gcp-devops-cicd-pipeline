@@ -59,4 +59,4 @@ options:
 tags:
   - gcp-cloud-build-deploy
   - $_K8S_APP_NAME
-timeout: 900s
+timeout: 1000s
