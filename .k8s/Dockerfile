@@ -1,6 +1,7 @@
 FROM node:16
 
-COPY . .
+WORKDIR /home
+COPY . /home
 
 RUN npm install
 
