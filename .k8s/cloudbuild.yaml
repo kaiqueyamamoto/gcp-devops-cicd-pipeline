@@ -2,12 +2,12 @@ steps:
   - name: gcr.io/cloud-builders/docker
     args:
       - build
-      # - '-t'
-      # - '$_IMAGE_NAME:$SHORT_SHA'
+      - '-t'
+      - '$_IMAGE_NAME:$SHORT_SHA'
       - '-t'
       - '$_IMAGE_NAME'
-      # - '-t'
-      # - '$_IMAGE_NAME:master'
+      - '-t'
+      - '$_IMAGE_NAME:master'
       - '../'
       - '-f'
       - $_DOCKERFILE_NAME
@@ -27,7 +27,6 @@ steps:
       - '--app=$_K8S_APP_NAME'
       - '--version=$COMMIT_SHA'
       - '--namespace=$_K8S_NAMESPACE'
-      # - '--label=$_K8S_LABELS'
       - '--annotation=$_K8S_ANNOTATIONS,gcb-build-id=$BUILD_ID'
       - '--create-application-cr'
       - >-
@@ -55,8 +54,7 @@ steps:
       - '--namespace=$_K8S_NAMESPACE'
     id: Apply deploy
 images:
-  # - '$_IMAGE_NAME:$SHORT_SHA'
-  - '$_IMAGE_NAME'
+  - '$_IMAGE_NAME:$SHORT_SHA'
 options:
   substitutionOption: ALLOW_LOOSE
 tags:
