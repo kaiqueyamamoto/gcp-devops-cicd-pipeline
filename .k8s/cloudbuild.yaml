@@ -33,18 +33,18 @@ steps:
         --links="Build
         details=https://console.cloud.google.com/cloud-build/builds/$BUILD_ID?project=$PROJECT_ID"
       - '--output=output'
-  #   id: Prepare deploy
-  # - name: gcr.io/cloud-builders/gsutil
-  #   args:
-  #     - '-c'
-  #     - |-
-  #       if [ "$_OUTPUT_BUCKET_PATH" != "" ]
-  #       then
-  #         gsutil cp -r output/suggested gs://$_OUTPUT_BUCKET_PATH/config/$_K8S_APP_NAME/$BUILD_ID/suggested
-  #         gsutil cp -r output/expanded gs://$_OUTPUT_BUCKET_PATH/config/$_K8S_APP_NAME/$BUILD_ID/expanded
-  #       fi
-  #   id: Save configs
-  #   entrypoint: sh
+    id: Prepare deploy
+  - name: gcr.io/cloud-builders/gsutil
+    args:
+      - '-c'
+      - |-
+        if [ "$_OUTPUT_BUCKET_PATH" != "" ]
+        then
+          gsutil cp -r output/suggested gs://$_OUTPUT_BUCKET_PATH/config/$_K8S_APP_NAME/$BUILD_ID/suggested
+          gsutil cp -r output/expanded gs://$_OUTPUT_BUCKET_PATH/config/$_K8S_APP_NAME/$BUILD_ID/expanded
+        fi
+    id: Save configs
+    entrypoint: sh
   - name: gcr.io/cloud-builders/gke-deploy
     args:
       - apply
