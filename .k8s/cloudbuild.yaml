@@ -45,7 +45,7 @@ steps:
   #         gsutil cp -r output/expanded gs://$_OUTPUT_BUCKET_PATH/config/$_K8S_APP_NAME/$BUILD_ID/expanded
   #       fi
   #   id: Save configs
-    entrypoint: sh
+    # entrypoint: sh
   - name: gcr.io/cloud-builders/gke-deploy
     args:
       - apply
