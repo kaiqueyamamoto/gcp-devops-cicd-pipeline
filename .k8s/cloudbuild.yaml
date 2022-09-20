@@ -18,7 +18,7 @@ steps:
     args:
       - push
       - '$_IMAGE_NAME'
-    id: Push
+    id: CI
 
   - name: gcr.io/cloud-builders/gke-deploy
     args:
@@ -34,27 +34,6 @@ steps:
         --links="Build
         details=https://console.cloud.google.com/cloud-build/builds/$BUILD_ID?project=$PROJECT_ID"
       - '--output=output'
-
-    id: Prepare deploy
-  # - name: gcr.io/cloud-builders/gsutil
-  #   args:
-  #     - '-c'
-  #     - |-
-  #       then
-  #         gsutil cp -r output/suggested gs://$_OUTPUT_BUCKET_PATH/config/$_K8S_APP_NAME/$BUILD_ID/suggested
-  #         gsutil cp -r output/expanded gs://$_OUTPUT_BUCKET_PATH/config/$_K8S_APP_NAME/$BUILD_ID/expanded
-  #       fi
-  #   id: Save configs
-  #   entrypoint: sh
-
-  - name: gcr.io/cloud-builders/gke-deploy
-    args:
-      - apply
-      - '--cluster=$_GKE_CLUSTER'
-      - '--location=$_GKE_LOCATION'
-      - '--namespace=$_K8S_NAMESPACE'
-    id: Apply deploy
-
 images:
   - '$_IMAGE_NAME:$SHORT_SHA'
 options:
