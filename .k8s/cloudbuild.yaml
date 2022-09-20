@@ -5,9 +5,9 @@ steps:
       # - '-t'
       # - '$_IMAGE_NAME:$SHORT_SHA'
       - '-t'
-      - '$_IMAGE_NAME:latest'
-      - '-t'
-      - '$_IMAGE_NAME:master'
+      - '$_IMAGE_NAME'
+      # - '-t'
+      # - '$_IMAGE_NAME:master'
       - '../'
       - '-f'
       - $_DOCKERFILE_NAME
